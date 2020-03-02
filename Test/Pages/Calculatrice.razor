@@ -1,0 +1,562 @@
+﻿@page "/Calculatrice"
+
+<h1>Calculatrice</h1>
+
+<p> @calcul </p>
+<p> @total </p>
+
+
+
+    <button class="button-egal" @onclick="egal">=</button>
+    <button class="button-zero" @onclick="zero">0</button>
+    <button class="button-virgule" @onclick="virgule">,</button>
+
+
+<div class="btn-group2">
+    <button class="button" @onclick="ac">AC</button>
+    <button class="button" @onclick="signe">±</button>
+    <button class="button" @onclick="pourcentage">%</button>
+    <button class="button-division" @onclick="division">/</button>
+</div>
+
+<div class="btn-group3">
+    <button class="button" @onclick="sept">7</button>
+    <button class="button" @onclick="huit">8</button>
+    <button class="button" @onclick="neuf">9</button>
+    <button class="button-fois" @onclick="fois">x</button>
+</div>
+
+<div class="btn-group4">
+    <button class="button" @onclick="quatre">4</button>
+    <button class="button" @onclick="cinq">5</button>
+    <button class="button" @onclick="six">6</button>
+    <button class="button-moins" @onclick="moins">-</button>
+</div>
+
+<div class="btn-group5">
+    <button class="button" @onclick="un">1</button>
+    <button class="button" @onclick="deux">2</button>
+    <button class="button" @onclick="trois">3</button>
+    <button class="button-plus" @onclick="plus">+</button>
+</div>
+
+<input type="text" @onkeypress="KeyWasPressed" />
+    @code {
+        private int _count = 0;
+        private double variableglobale = 0;
+        private double total = 0;
+        private float test = 0;
+        Boolean itworks = false;
+        private int clique = 0;
+        private int operateur = -1;
+        Boolean addition = false;
+
+        private int prec_operateur = -1;
+        private int cpt = 0;
+        String calcul = "";
+        Boolean debut = true;
+        Boolean reco = true;
+        Boolean mul_div = true;
+        double nb_vir = 0;
+
+
+
+        private void KeyWasPressed(KeyboardEventArgs args)
+        {
+            switch (args.Key)
+            {
+                case "0":
+                    zero();
+                    break;
+
+                case "1":
+                    un();
+                    break;
+
+                case "2":
+                    deux();
+                    break;
+
+                case "3":
+                    trois();
+                    break;
+
+                case "4":
+                    quatre();
+                    break;
+
+                case "5":
+                    cinq();
+                    break;
+
+                case "6":
+                    six();
+                    break;
+
+                case "7":
+                    sept();
+                    break;
+
+                case "8":
+                    huit();
+                    break;
+
+                case "9":
+                    neuf();
+                    break;
+
+                case "+":
+                    plus();
+                    break;
+
+                case "/":
+                    division();
+                    break;
+
+                case "*":
+                    fois();
+                    break;
+
+                case "-":
+                    moins();
+                    break;
+
+                case "Enter":
+                    egal();
+                    break;
+
+                case ".":
+                    virgule();
+                    break;
+
+            }
+        }
+
+        private void egal()
+        {
+
+            calcul = calcul + variableglobale + " = ";
+            switch (operateur)
+            {
+                case 1:
+                    total = total + variableglobale;
+                    break;
+                case 2:
+                    total = total - variableglobale;
+                    break;
+                case 3:
+                    total = total * variableglobale;
+                    break;
+                case 4:
+                    total = total / variableglobale;
+                    break;
+            }
+
+
+            addition = false;
+            debut = true;
+            variableglobale = total;
+            reco = true;
+            itworks = true;
+            mul_div = true;
+            nb_vir = 0;
+        }
+
+        private void signe()
+        {
+            variableglobale = -variableglobale;
+            total = variableglobale;
+        }
+
+        private void virgule()
+        {
+            mul_div = false;
+            nb_vir = 1;
+
+
+        }
+
+        private void pourcentage()
+        {
+            variableglobale = (variableglobale / 100);
+            total = variableglobale;
+        }
+
+        private void division()
+        {
+            mul_div = true;
+            nb_vir = 0;
+            if (debut == true && reco == false)
+            {
+                calcul = variableglobale.ToString() + "/";
+                debut = false;
+
+            }
+            else
+            {
+                if (itworks == true)
+                {
+                    calcul = "";
+                    itworks = false;
+                }
+
+                calcul = calcul + variableglobale.ToString() + "/";
+            }
+
+            operateur = 4;
+            cpt++;
+
+            if (addition == false)
+            {
+                total = variableglobale;
+                variableglobale = 0;
+                addition = true;
+            }
+            else
+            {
+                switch (prec_operateur)
+                {
+                    case 1:
+                        total = total + variableglobale;
+                        break;
+                    case 2:
+                        total = total - variableglobale;
+                        break;
+                    case 3:
+                        total = total * variableglobale;
+                        break;
+                    case 4:
+                        total = total / variableglobale;
+                        break;
+                }
+            }
+
+            variableglobale = 0;
+            prec_operateur = operateur;
+        }
+
+
+        private void fois()
+        {
+            mul_div = true;
+            nb_vir = 0;
+            if (debut == true && reco == false)
+            {
+                calcul = variableglobale.ToString() + "*";
+                debut = false;
+            }
+            else
+            {
+                if (itworks == true)
+                {
+                    calcul = "";
+                    itworks = false;
+
+                }
+                calcul = calcul + variableglobale.ToString() + "*";
+            }
+
+            operateur = 3;
+            cpt++;
+
+            if (addition == false)
+            {
+                total = variableglobale;
+                variableglobale = 0;
+                addition = true;
+            }
+            else
+            {
+                switch (prec_operateur)
+                {
+                    case 1:
+                        total = total + variableglobale;
+                        break;
+                    case 2:
+                        total = total - variableglobale;
+                        break;
+                    case 3:
+                        total = total * variableglobale;
+                        break;
+                    case 4:
+                        total = total / variableglobale;
+                        break;
+                }
+            }
+
+            variableglobale = 0;
+            prec_operateur = operateur;
+
+        }
+
+        private void ac()
+        {
+            variableglobale = 0;
+            total = 0;
+            calcul = " ";
+            mul_div = true;
+            nb_vir = 0;
+        }
+
+        private void moins()
+        {
+            mul_div = true;
+            nb_vir = 0;
+            if (debut == true && reco == false)
+            {
+                calcul = variableglobale.ToString() + " - ";
+                debut = false;
+            }
+            else
+            {
+                if (itworks == true)
+                {
+                    calcul = "";
+                    itworks = false;
+                }
+                calcul = calcul + variableglobale.ToString() + " - ";
+            }
+
+            operateur = 2;
+            cpt++;
+
+            if (addition == false)
+            {
+                total = variableglobale;
+                variableglobale = 0;
+                addition = true;
+
+            }
+            else
+            {
+                switch (prec_operateur)
+                {
+                    case 1:
+                        total = total + variableglobale;
+                        break;
+                    case 2:
+                        total = total - variableglobale;
+                        break;
+                    case 3:
+                        total = total * variableglobale;
+                        break;
+                    case 4:
+                        total = total / variableglobale;
+                        break;
+                }
+            }
+            prec_operateur = operateur;
+
+            variableglobale = 0;
+        }
+
+        private void plus()
+        {
+            mul_div = true;
+            nb_vir = 0;
+            if (debut == true && reco == false)
+            {
+                calcul = variableglobale.ToString() + " + ";
+                debut = false;
+            }
+            else
+            {
+                if (itworks == true)
+                {
+                    calcul = "";
+                    itworks = false;
+                }
+                calcul = calcul + variableglobale.ToString() + " + ";
+            }
+
+
+
+            operateur = 1;
+            cpt++;
+
+
+            if (addition == false)
+            {
+                total = variableglobale;
+                variableglobale = 0;
+                addition = true;
+            }
+            else
+            {
+                switch (prec_operateur)
+                {
+                    case 1:
+                        total = total + variableglobale;
+                        break;
+                    case 2:
+                        total = total - variableglobale;
+                        break;
+                    case 3:
+                        total = total * variableglobale;
+                        break;
+                    case 4:
+                        total = total / variableglobale;
+                        break;
+                }
+
+
+            }
+            variableglobale = 0;
+            prec_operateur = operateur;
+        }
+
+        private void zero()
+        {
+            int a = 0;
+
+            if(mul_div)
+            {
+                variableglobale = variableglobale * 10 + a;
+            }
+            else
+            {
+                variableglobale = variableglobale + a/(Math.Pow(10,nb_vir));
+                nb_vir++;
+            }
+
+        }
+
+        private void un()
+        {
+            int a = 1;
+
+            if(mul_div)
+            {
+                variableglobale = variableglobale * 10 + a;
+            }
+            else
+            {
+                variableglobale = variableglobale + a/(Math.Pow(10,nb_vir));
+                nb_vir++;
+            }
+
+
+        }
+
+        private void deux()
+        {
+            int a = 2;
+
+            if(mul_div)
+            {
+                variableglobale = variableglobale * 10 + a;
+            }
+            else
+            {
+                variableglobale = variableglobale + a/(Math.Pow(10,nb_vir));
+                nb_vir++;
+            }
+
+        }
+
+        private void trois()
+        {
+            int a = 3;
+
+            if(mul_div)
+            {
+                variableglobale = variableglobale * 10 + a;
+            }
+            else
+            {
+                variableglobale = variableglobale + a/(Math.Pow(10,nb_vir));
+                nb_vir++;
+            }
+
+        }
+
+        private void quatre()
+        {
+            int a = 4;
+
+            if(mul_div)
+            {
+                variableglobale = variableglobale * 10 + a;
+            }
+            else
+            {
+                variableglobale = variableglobale + a/(Math.Pow(10,nb_vir));
+                nb_vir++;
+            }
+        }
+
+        private void cinq()
+        {
+            int a = 5;
+
+            if(mul_div)
+            {
+                variableglobale = variableglobale * 10 + a;
+            }
+            else
+            {
+                variableglobale = variableglobale + a/(Math.Pow(10,nb_vir));
+                nb_vir++;
+            }
+        }
+
+        private void six()
+        {
+            int a = 6;
+
+            if(mul_div)
+            {
+                variableglobale = variableglobale * 10 + a;
+            }
+            else
+            {
+                variableglobale = variableglobale + a/(Math.Pow(10,nb_vir));
+                nb_vir++;
+            }
+        }
+
+        private void sept()
+        {
+            int a = 7;
+
+            if(mul_div)
+            {
+                variableglobale = variableglobale * 10 + a;
+            }
+            else
+            {
+                variableglobale = variableglobale + a/(Math.Pow(10,nb_vir));
+                nb_vir++;
+            }
+        }
+
+        private void huit()
+        {
+            int a = 8;
+
+            if(mul_div)
+            {
+                variableglobale = variableglobale * 10 + a;
+            }
+            else
+            {
+                variableglobale = variableglobale + a/(Math.Pow(10,nb_vir));
+                nb_vir++;
+            }
+        }
+
+        private void neuf()
+        {
+            int a = 9;
+
+            if(mul_div)
+            {
+                variableglobale = variableglobale * 10 + a;
+            }
+            else
+            {
+                variableglobale = variableglobale + a/(Math.Pow(10,nb_vir));
+                nb_vir++;
+            }
+        }
+    }
