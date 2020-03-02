@@ -1,6 +1,6 @@
 ﻿<Properties StartupConfiguration="{1AE3DFED-B328-4F9D-AA4D-8AFA235EDCE4}|Default">
   <MonoDevelop.Ide.ItemProperties.Test PreferredExecutionTarget="/Applications/Safari.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Pages/Calculatrice.razor">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Pages/Tutoriels.razor">
     <Files>
       <File FileName="Pages/Index.razor" Line="6" Column="1" />
       <File FileName="wwwroot/css/site.css" />
@@ -17,7 +17,8 @@
       <File FileName="App.razor" />
       <File FileName="_Imports.razor" />
       <File FileName="appsettings.json" />
-      <File FileName="Pages/Calculatrice.razor" Line="1" Column="1" />
+      <File FileName="Pages/Calculatrice.razor" Line="294" Column="19" />
+      <File FileName="Pages/Tutoriels.razor" Line="7" Column="119" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -25,7 +26,7 @@
           <Node name="Test" expanded="True">
             <Node name="Test" expanded="True">
               <Node name="Pages" expanded="True">
-                <Node name="Calculatrice.razor" selected="True" />
+                <Node name="Tutoriels.razor" selected="True" />
               </Node>
               <Node name="Shared" expanded="True" />
               <Node name="wwwroot" expanded="True">
